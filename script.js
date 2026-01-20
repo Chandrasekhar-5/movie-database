@@ -1,8 +1,3 @@
-
-const API_KEY = 'ae45b35'; 
-const BASE_URL = 'https://www.omdbapi.com/';
-
-
 const searchInput = document.getElementById('searchInput');
 const searchBtn = document.getElementById('searchBtn');
 const randomBtn = document.getElementById('randomBtn');
@@ -87,8 +82,8 @@ async function searchMovies(query) {
 
     try {
         const response = await fetch(
-            `${BASE_URL}?s=${encodeURIComponent(query)}&apikey=${API_KEY}&page=${currentPage}${year ? `&y=${year}` : ''}${type ? `&type=${type}` : ''}`
-        );
+  `/api/movies?s=${encodeURIComponent(query)}&page=${currentPage}${year ? `&y=${year}` : ''}${type ? `&type=${type}` : ''}`
+);
         const data = await response.json();
 
         if (data.Response === 'True') {
@@ -115,8 +110,8 @@ async function loadMoreMovies() {
 
     try {
         const response = await fetch(
-            `${BASE_URL}?s=${encodeURIComponent(currentSearch)}&apikey=${API_KEY}&page=${currentPage}${year ? `&y=${year}` : ''}${type ? `&type=${type}` : ''}`
-        );
+  `/api/movies?s=${encodeURIComponent(currentSearch)}&page=${currentPage}${year ? `&y=${year}` : ''}${type ? `&type=${type}` : ''}`
+);
         const data = await response.json();
 
         if (data.Response === 'True') {
@@ -138,9 +133,8 @@ async function getRandomMovie() {
     const randomTerm = randomTerms[Math.floor(Math.random() * randomTerms.length)];
     
     try {
-        const response = await fetch(
-            `${BASE_URL}?s=${randomTerm}&apikey=${API_KEY}&page=${Math.floor(Math.random() * 5) + 1}`
-        );
+        const response = await fetch(`/api/movies?s=${randomTerm}&page=${Math.floor(Math.random() * 5) + 1}`);
+
         const data = await response.json();
 
         if (data.Response === 'True') {
@@ -195,7 +189,7 @@ async function showMovieDetails(imdbID) {
     showLoading();
     
     try {
-        const response = await fetch(`${BASE_URL}?i=${imdbID}&apikey=${API_KEY}&plot=full`);
+        const response = await fetch(`/api/movies?i=${imdbID}&plot=full`);
         const movie = await response.json();
 
         if (movie.Response === 'True') {
