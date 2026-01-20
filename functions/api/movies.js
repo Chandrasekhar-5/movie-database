@@ -1,5 +1,4 @@
-export async function onRequest(context) {
-  const { request, env } = context;
+export async function onRequest({ request, env }) {
   const url = new URL(request.url);
   const params = url.searchParams.toString();
 
@@ -8,6 +7,9 @@ export async function onRequest(context) {
   );
 
   return new Response(res.body, {
-    headers: { "Content-Type": "application/json" }
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    }
   });
 }
